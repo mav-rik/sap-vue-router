@@ -97,6 +97,11 @@ function checkFallback (base) {
   }
 }
 
+// SAP Fiori Launchpad uses navigation target after hash and before path
+function getHashWord(href) {
+  return (href.match(/[^#]+?#([^&\/]+&?)?/) || ['', ''])[1] || ''
+}
+
 function ensureSlash (): boolean {
   const path = getHash()
   if (path.charAt(0) === '/') {
@@ -106,11 +111,13 @@ function ensureSlash (): boolean {
   return false
 }
 
+// will return hash after Fiori navigation target
 export function getHash (): string {
   // We can't use window.location.hash here because it's not
   // consistent across browsers - Firefox will pre-decode it!
   let href = window.location.href
-  const index = href.indexOf('#')
+  const hashWordLength = getHashWord(href).length
+  const index = href.indexOf('#') + hashWordLength
   // empty path
   if (index < 0) return ''
 
@@ -135,7 +142,11 @@ function getUrl (path) {
   const href = window.location.href
   const i = href.indexOf('#')
   const base = i >= 0 ? href.slice(0, i) : href
-  return `${base}#${path}`
+  // will put Fiori nav target to url
+  const hashWord = getHashWord(href)
+  const hasQuestion = base.indexOf('?') >= 0
+  const needAmpersand = hashWord.indexOf('&') < 0 && hasQuestion
+  return `${base}#${hashWord}${needAmpersand ? '&' : ''}${path}`
 }
 
 function pushHash (path) {
