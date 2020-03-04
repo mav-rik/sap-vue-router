@@ -2546,8 +2546,8 @@ function getUrl (path) {
   const base = i >= 0 ? href.slice(0, i) : href;
   // will put Fiori nav target to url
   const hashWord = getHashWord(href);
-  const hasQuestion = base.indexOf('?') >= 0;
-  const needAmpersand = hashWord.indexOf('&') < 0 && hasQuestion;
+  // const hasQuestion = base.indexOf('?') >= 0
+  const needAmpersand = hashWord.indexOf('&') < 0; // && hasQuestion
   return `${base}#${hashWord}${needAmpersand ? '&' : ''}${path}`
 }
 
