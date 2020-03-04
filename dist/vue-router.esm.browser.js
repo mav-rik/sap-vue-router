@@ -2500,7 +2500,7 @@ function checkFallback (base) {
 }
 
 // SAP Fiori Launchpad uses navigation target after hash and before path
-function getHashWord(href) {
+function getHashWord (href) {
   return (href.match(/[^#]+?#([^&\/]+&?)?/) || ['', ''])[1] || ''
 }
 
@@ -2719,6 +2719,11 @@ class VueRouter {
       // ensure we still have a main app or null if no apps
       // we do not release the router so it can be reused
       if (this.app === app) this.app = this.apps[0] || null;
+      if (!this.app) {
+        this.beforeHooks = [];
+        this.resolveHooks = [];
+        this.afterHooks = [];
+      }
     });
 
     // main app previously initialized

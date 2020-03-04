@@ -2551,7 +2551,7 @@
   }
 
   // SAP Fiori Launchpad uses navigation target after hash and before path
-  function getHashWord(href) {
+  function getHashWord (href) {
     return (href.match(/[^#]+?#([^&\/]+&?)?/) || ['', ''])[1] || ''
   }
 
@@ -2768,6 +2768,11 @@
       // ensure we still have a main app or null if no apps
       // we do not release the router so it can be reused
       if (this$1.app === app) { this$1.app = this$1.apps[0] || null; }
+      if (!this$1.app) {
+        this$1.beforeHooks = [];
+        this$1.resolveHooks = [];
+        this$1.afterHooks = [];
+      }
     });
 
     // main app previously initialized
